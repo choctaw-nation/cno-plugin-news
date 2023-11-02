@@ -4,6 +4,7 @@
  *
  * @since 1.0
  * @package ChoctawNation
+ * @subpackage News
  */
 
 $news_labels = array(
@@ -23,13 +24,14 @@ $news_labels = array(
 
 $args = array(
 	'labels'        => $news_labels,
-	'public'        => true,
-	'has_archive'   => true,
+	'public'        => false,
+	'show_ui'       => true,
+	'show_in_menu'  => true,
+	'has_archive'   => false,
 	'show_in_rest'  => true,
 	'rest_base'     => 'choctaw-boilerplates',
 	'supports'      => array(
 		'title',
-		'thumbnail',
 		'revisions',
 		'author',
 	),

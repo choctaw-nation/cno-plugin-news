@@ -4,6 +4,7 @@
  *
  * @since 1.0
  * @package ChoctawNation
+ * @subpackage News
  */
 
 $news_labels = array(
