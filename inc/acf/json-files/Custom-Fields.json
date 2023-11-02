@@ -60,7 +60,7 @@
 		"instruction_placement": "label",
 		"hide_on_screen": "",
 		"active": true,
-		"description": "",
+		"description": "Handles Boilerplate content creation for News CPT posts.",
 		"show_in_rest": 1
 	},
 	{
@@ -108,11 +108,11 @@
 				"append": ""
 			},
 			{
-				"key": "field_6356dc8beee56",
-				"label": "Photo Credit",
-				"name": "photo_credit",
+				"key": "field_6543a1f7285a8",
+				"label": "Photo Meta",
+				"name": "photo_meta",
 				"aria-label": "",
-				"type": "text",
+				"type": "group",
 				"instructions": "",
 				"required": 0,
 				"conditional_logic": 0,
@@ -121,38 +121,56 @@
 					"class": "",
 					"id": ""
 				},
-				"default_value": "",
-				"maxlength": "",
-				"placeholder": "",
-				"prepend": "",
-				"append": ""
+				"layout": "block",
+				"sub_fields": [
+					{
+						"key": "field_6356dc8beee56",
+						"label": "Photo Credit",
+						"name": "photo_credit",
+						"aria-label": "",
+						"type": "text",
+						"instructions": "",
+						"required": 0,
+						"conditional_logic": 0,
+						"wrapper": {
+							"width": "",
+							"class": "",
+							"id": ""
+						},
+						"default_value": "",
+						"maxlength": "",
+						"placeholder": "",
+						"prepend": "",
+						"append": ""
+					},
+					{
+						"key": "field_6356dc96eee57",
+						"label": "Photo Caption",
+						"name": "photo_caption",
+						"aria-label": "",
+						"type": "text",
+						"instructions": "",
+						"required": 0,
+						"conditional_logic": 0,
+						"wrapper": {
+							"width": "",
+							"class": "",
+							"id": ""
+						},
+						"default_value": "",
+						"maxlength": "",
+						"placeholder": "",
+						"prepend": "",
+						"append": ""
+					}
+				]
 			},
 			{
-				"key": "field_6356dc96eee57",
-				"label": "Photo Caption",
-				"name": "photo_caption",
+				"key": "field_635833b25f2ce",
+				"label": "Article",
+				"name": "article",
 				"aria-label": "",
-				"type": "text",
-				"instructions": "",
-				"required": 0,
-				"conditional_logic": 0,
-				"wrapper": {
-					"width": "",
-					"class": "",
-					"id": ""
-				},
-				"default_value": "",
-				"maxlength": "",
-				"placeholder": "",
-				"prepend": "",
-				"append": ""
-			},
-			{
-				"key": "field_6337162ef5a15",
-				"label": "Brief Description",
-				"name": "archive_content",
-				"aria-label": "",
-				"type": "textarea",
+				"type": "wysiwyg",
 				"instructions": "",
 				"required": 1,
 				"conditional_logic": 0,
@@ -162,10 +180,10 @@
 					"id": ""
 				},
 				"default_value": "",
-				"maxlength": "",
-				"rows": "",
-				"placeholder": "",
-				"new_lines": ""
+				"delay": 0,
+				"tabs": "all",
+				"toolbar": "full",
+				"media_upload": 1
 			},
 			{
 				"key": "field_6356bad640d83",
@@ -195,26 +213,6 @@
 				"bidirectional_target": []
 			},
 			{
-				"key": "field_635833b25f2ce",
-				"label": "Article",
-				"name": "article",
-				"aria-label": "",
-				"type": "wysiwyg",
-				"instructions": "",
-				"required": 1,
-				"conditional_logic": 0,
-				"wrapper": {
-					"width": "",
-					"class": "",
-					"id": ""
-				},
-				"default_value": "",
-				"delay": 0,
-				"tabs": "all",
-				"toolbar": "full",
-				"media_upload": 1
-			},
-			{
 				"key": "field_6356e4ff33288",
 				"label": "Full Article Link (optional)",
 				"name": "full_article",
@@ -231,14 +229,42 @@
 				"layout": "block",
 				"sub_fields": [
 					{
+						"key": "field_6543a271285ab",
+						"label": "Read Full Article Link",
+						"name": "has_link_to_full_article",
+						"aria-label": "",
+						"type": "true_false",
+						"instructions": "",
+						"required": 0,
+						"conditional_logic": 0,
+						"wrapper": {
+							"width": "",
+							"class": "",
+							"id": ""
+						},
+						"message": "Show options to create link to full, external article",
+						"default_value": 0,
+						"ui": 0,
+						"ui_on_text": "",
+						"ui_off_text": ""
+					},
+					{
 						"key": "field_6356e64533289",
-						"label": "Article Name",
-						"name": "article_name",
+						"label": "Article Title",
+						"name": "title",
 						"aria-label": "",
 						"type": "text",
 						"instructions": "",
 						"required": 0,
-						"conditional_logic": 0,
+						"conditional_logic": [
+							[
+								{
+									"field": "field_6543a271285ab",
+									"operator": "==",
+									"value": "1"
+								}
+							]
+						],
 						"wrapper": {
 							"width": "",
 							"class": "",
@@ -253,12 +279,20 @@
 					{
 						"key": "field_6356e6503328a",
 						"label": "Article Link",
-						"name": "article_link",
+						"name": "link",
 						"aria-label": "",
 						"type": "url",
 						"instructions": "",
 						"required": 0,
-						"conditional_logic": 0,
+						"conditional_logic": [
+							[
+								{
+									"field": "field_6543a271285ab",
+									"operator": "==",
+									"value": "1"
+								}
+							]
+						],
 						"wrapper": {
 							"width": "",
 							"class": "",
@@ -270,12 +304,20 @@
 					{
 						"key": "field_6356e65f3328b",
 						"label": "Article Author",
-						"name": "article_author",
+						"name": "author",
 						"aria-label": "",
 						"type": "text",
 						"instructions": "",
 						"required": 0,
-						"conditional_logic": 0,
+						"conditional_logic": [
+							[
+								{
+									"field": "field_6543a271285ab",
+									"operator": "==",
+									"value": "1"
+								}
+							]
+						],
 						"wrapper": {
 							"width": "",
 							"class": "",
@@ -289,13 +331,21 @@
 					},
 					{
 						"key": "field_6356e66a3328c",
-						"label": "Article Date",
-						"name": "article_date",
+						"label": "Article Published Date",
+						"name": "published_date",
 						"aria-label": "",
 						"type": "date_picker",
 						"instructions": "",
 						"required": 0,
-						"conditional_logic": 0,
+						"conditional_logic": [
+							[
+								{
+									"field": "field_6543a271285ab",
+									"operator": "==",
+									"value": "1"
+								}
+							]
+						],
 						"wrapper": {
 							"width": "",
 							"class": "",
@@ -303,7 +353,7 @@
 						},
 						"display_format": "F j, Y",
 						"return_format": "M j, Y",
-						"first_day": 1
+						"first_day": 0
 					}
 				]
 			},
@@ -312,8 +362,8 @@
 				"label": "Video",
 				"name": "video",
 				"aria-label": "",
-				"type": "oembed",
-				"instructions": "",
+				"type": "number",
+				"instructions": "Videos must be public!",
 				"required": 0,
 				"conditional_logic": 0,
 				"wrapper": {
@@ -321,8 +371,13 @@
 					"class": "",
 					"id": ""
 				},
-				"width": "",
-				"height": ""
+				"default_value": "",
+				"min": "",
+				"max": "",
+				"placeholder": "",
+				"step": "",
+				"prepend": "https:\/\/vimeo.com\/",
+				"append": ""
 			}
 		],
 		"location": [
@@ -341,7 +396,51 @@
 		"instruction_placement": "label",
 		"hide_on_screen": "",
 		"active": true,
-		"description": "",
+		"description": "News CPT Fields, including relationship to Boilerplate CPT",
+		"show_in_rest": 1
+	},
+	{
+		"key": "group_6543a3912397b",
+		"title": "News Single - Sidebar",
+		"fields": [
+			{
+				"key": "field_6543a3915e1c0",
+				"label": "Brief Description",
+				"name": "archive_content",
+				"aria-label": "",
+				"type": "textarea",
+				"instructions": "Character limit 155. New lines ignored.",
+				"required": 0,
+				"conditional_logic": 0,
+				"wrapper": {
+					"width": "",
+					"class": "",
+					"id": ""
+				},
+				"default_value": "",
+				"maxlength": 155,
+				"rows": "",
+				"placeholder": "",
+				"new_lines": ""
+			}
+		],
+		"location": [
+			[
+				{
+					"param": "post_type",
+					"operator": "==",
+					"value": "choctaw-news"
+				}
+			]
+		],
+		"menu_order": 0,
+		"position": "side",
+		"style": "default",
+		"label_placement": "top",
+		"instruction_placement": "label",
+		"hide_on_screen": "",
+		"active": true,
+		"description": "Displays the Yoast SEO \"archive content\" \/ Excerpt in the sidebar. Character limit: 155.",
 		"show_in_rest": 1
 	}
 ]

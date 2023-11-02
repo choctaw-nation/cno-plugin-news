@@ -24,7 +24,11 @@ class Post_Type_Builder {
 
 		add_action( 'init', array( $this, 'init_cpt' ) );
 		$this->init_acf();
-		// include_once dirname( __DIR__ ) . '/acf/objects/class-choctaw-event.php';
+		if ( ! class_exists( 'ACF_Image' ) ) {
+			require_once dirname( __DIR__ ) . '/acf/objects/class-acf-image.php';
+		}
+		require_once dirname( __DIR__ ) . '/acf/objects/class-boilerplate.php';
+		require_once dirname( __DIR__ ) . '/acf/objects/class-news.php';
 	}
 
 	/** Inits the CPT */
@@ -36,5 +40,16 @@ class Post_Type_Builder {
 	/** Inits the ACF Fields */
 	private function init_acf() {
 		require_once __DIR__ . '/cno-choctaw-news-custom-fields.php';
+	}
+
+	public function load_scripts() {
+		$asset_file = require_once dirname( __DIR__, 2 ) . '/dist/cno-news.asset.php';
+		wp_register_script(
+			'cno-news',
+			plugin_dir_url( dirname( __DIR__, 1 ) ) . 'dist/cno-news.js',
+			array(),
+			$asset_file['version'],
+			array( 'strategy' => 'async' )
+		);
 	}
 }

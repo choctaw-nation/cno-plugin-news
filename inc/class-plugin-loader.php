@@ -21,6 +21,7 @@ final class Plugin_Loader extends Admin_Handler {
 		parent::__construct();
 		parent::init();
 		add_filter( 'template_include', array( $this, 'update_template_loader' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'load_scripts' ) );
 	}
 
 
@@ -32,16 +33,11 @@ final class Plugin_Loader extends Admin_Handler {
 	public function update_template_loader( string $template ): string {
 		$is_single  = is_singular( 'choctaw-news' );
 		$is_archive = is_archive( 'choctaw-news' );
-		$is_search  = is_search();
 		if ( $is_single ) {
 			$template = $this->get_the_template( 'single' );
 		}
 		if ( $is_archive ) {
 			$template = $this->get_the_template( 'archive' );
-		}
-		if ( is_search() ) {
-			$template = $this->get_the_search_page( $template );
-
 		}
 		return $template;
 	}

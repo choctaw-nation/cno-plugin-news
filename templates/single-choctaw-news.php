@@ -6,25 +6,53 @@
  * @package ChoctawNation
  */
 
-get_header();
+use ChoctawNation\News\News;
 
+get_header();
+$news = new News( get_the_ID() );
+wp_enqueue_script( 'cno-news' );
 ?>
 <div class="container my-5 py-5">
-	<nav arial-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="/events">All Events</a></li>
-			<li class="breadcrumb-item active" aria-current="page"><?php echo $event->get_the_name(); ?></li>
-		</ol>
-	</nav>
-	<article <?php post_class(); ?> id="<?php echo 'post-' . get_the_ID(); ?>">
-		<header>
-			<h1></h1>
-			<?php the_post_thumbnail( 'large' ); ?>
+	<article <?php post_class( 'article' ); ?> id="<?php echo 'post-' . get_the_ID(); ?>">
+		<header class="article__header">
+			<div class="row">
+				<div class="col">
+					<?php the_title( '<h1 class="mb-5">', '</h1>' ); ?>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<?php
+					if ( $news->has_photo ) {
+						$news->the_photo();
+						echo "<div class='photo-meta mt-3'>";
+						$news->the_photo_credit();
+						$news->the_photo_caption();
+						echo '</div>';
+					}
+					?>
+				</div>
+			</div>
 		</header>
-		<section class="row">
-			<?php the_content(); ?>
+		<nav arial-label="breadcrumb" class="my-4">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="/news">All News</a></li>
+				<li class="breadcrumb-item active" aria-current="page"><?php the_title(); ?></li>
+			</ol>
+		</nav>
+		<aside class="article__published-date mb-5"><?php $news->the_published_date(); ?></aside>
+		<section class="article__body row">
+			<?php
+			$news->the_article();
+			if ( ( $news->has_video ) ) {
+				$news->the_video();
+			}
+			?>
+
 		</section>
-		<aside class="boilerplates"></aside>
+		<section class="boilerplates">
+			<?php $news->the_boilerplates(); ?>
+		</section>
 	</article>
 </div>
 

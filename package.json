@@ -6,6 +6,7 @@
 	"browserslist": [
 		"extends @wordpress/browserslist-config"
 	],
+	"main": "/src/index.js",
 	"author": "Choctaw Nation of Oklahoma",
 	"scripts": {
 		"build": "wp-scripts build",
@@ -15,5 +16,8 @@
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^26.15.0"
+	},
+	"dependencies": {
+		"@slightlyoff/lite-vimeo": "^0.1.2"
 	}
 }

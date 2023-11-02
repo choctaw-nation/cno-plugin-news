@@ -1,15 +1,14 @@
-const defaultConfig = require('@wordpress/scripts/config/webpack.config.js');
+const defaultConfig = require( '@wordpress/scripts/config/webpack.config.js' );
 
 module.exports = {
 	...defaultConfig,
 	...{
 		entry: {
-			'choctaw-events': __dirname + `/src/js/index.ts`,
-			'choctaw-events-search': __dirname + `/src/js/search/App.tsx`,
+			'cno-news': __dirname + `/src/index.js`,
 		},
 		resolve: {
 			...defaultConfig.resolve,
-			extensions: ['.js', '.jsx', '.ts', '.tsx'],
+			extensions: [ '.js', '.jsx', '.ts', '.tsx' ],
 		},
 		output: {
 			path: __dirname + `/dist`,
