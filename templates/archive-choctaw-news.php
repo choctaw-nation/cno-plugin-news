@@ -4,6 +4,7 @@
  *
  * @since 1.0
  * @package ChoctawNation
+ * @subpackage News
  */
 
 get_header();
@@ -26,4 +27,4 @@ get_header();
 	</section>
 </div>
 <?php
-wp_footer();
+get_footer();

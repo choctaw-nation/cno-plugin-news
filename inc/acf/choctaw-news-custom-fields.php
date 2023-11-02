@@ -4,6 +4,7 @@
  *
  * @since 1.0
  * @package ChoctawNation
+ * @subpackage News
  */
 
 add_action(

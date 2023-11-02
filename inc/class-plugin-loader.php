@@ -19,11 +19,20 @@ final class Plugin_Loader extends Admin_Handler {
 	 */
 	public function __construct() {
 		parent::__construct();
-		parent::init();
+		$this->load_acf_classes();
 		add_filter( 'template_include', array( $this, 'update_template_loader' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'load_scripts' ) );
+		add_action( 'pre_get_posts', array( $this, 'include_choctaw_news_post_type_in_search' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
 	}
 
+	/** Loads the ACF APIs */
+	private function load_acf_classes() {
+		if ( ! class_exists( 'ACF_Image' ) ) {
+			require_once __DIR__ . '/acf/objects/class-acf-image.php';
+		}
+		require_once __DIR__ . '/acf/objects/class-boilerplate.php';
+		require_once __DIR__ . '/acf/objects/class-news.php';
+	}
 
 	/**
 	 * Filter the WordPress Template Lookup to view the Plugin folder first
@@ -57,20 +66,15 @@ final class Plugin_Loader extends Admin_Handler {
 		}
 	}
 
-
-
-	/**
-	 * Returns the Plugin Archive.php Path (if exists)
-	 */
-	private function get_the_search_page(): string|\WP_Error {
-		$search_page = dirname( __DIR__, 1 ) . '/templates/search.php';
-		global $wp_query;
-		// $post_type = $wp_query->
-		if ( file_exists( $search_page ) ) {
-
-			return $search_page;
-		} else {
-			return new \WP_Error( 'Choctaw Events Error', 'Search page not found!' );
-		}
+	/** Registers "lite-vimeo" script with id of 'cno-news' */
+	public function register_scripts() {
+		$asset_file = require_once dirname( __DIR__, 1 ) . '/dist/cno-news.asset.php';
+		wp_register_script(
+			'cno-news',
+			plugin_dir_url( dirname( __DIR__, 1 ) ) . 'dist/cno-news.js',
+			array(),
+			$asset_file['version'],
+			array( 'strategy' => 'async' )
+		);
 	}
 }
