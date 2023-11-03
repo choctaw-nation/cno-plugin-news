@@ -12,7 +12,18 @@ use ChoctawNation\News\News;
 $news = new News( $post->ID );
 ?>
 <li class="row my-4">
-	<div class="col-lg-5"><?php $news->the_photo( 'large' ); ?></div>
+	<div class="col-lg-5">
+		<div class="ratio ratio-16x9">
+			<?php
+			$news->the_photo(
+				'choctaw-news-preview',
+				array(
+					'class' => 'object-fit-cover',
+				)
+			);
+			?>
+		</div>
+	</div>
 	<div class="col d-flex flex-column">
 		<a href="<?php the_permalink(); ?>">
 			<?php the_title( '<h2>', '</h2>' ); ?>

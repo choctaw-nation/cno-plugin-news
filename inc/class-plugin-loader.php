@@ -23,6 +23,7 @@ final class Plugin_Loader extends Admin_Handler {
 		add_filter( 'template_include', array( $this, 'update_template_loader' ) );
 		add_action( 'pre_get_posts', array( $this, 'include_choctaw_news_post_type_in_search' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
+		add_action( 'after_setup_theme', array( $this, 'register_image_sizes' ) );
 	}
 
 	/** Loads the ACF APIs */
@@ -71,10 +72,15 @@ final class Plugin_Loader extends Admin_Handler {
 		$asset_file = require_once dirname( __DIR__, 1 ) . '/dist/cno-news.asset.php';
 		wp_register_script(
 			'cno-news',
-			plugin_dir_url( dirname( __DIR__, 1 ) ) . 'dist/cno-news.js',
+			plugin_dir_url( __DIR__ ) . 'dist/cno-news.js',
 			array(),
 			$asset_file['version'],
 			array( 'strategy' => 'async' )
 		);
+	}
+
+	public function register_image_sizes() {
+		add_image_size( 'choctaw-news-preview', 1392, 784 );
+		add_image_size( 'choctaw-news-single', 2592, 1458 );
 	}
 }
