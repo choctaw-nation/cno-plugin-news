@@ -8,6 +8,17 @@ This plugin uses 2 CPTs, News and Boilerplates, to handle news posts, alongside 
 
 # Changelog
 
+## v1.1.1
+
+Fixes [#5](https://github.com/choctaw-nation/news-plugin/issues/5)
+
+Registers 2 new image sizes, both at 16:9 ratio, but at 2x for Retina display support:
+
+```php
+add_image_size( 'choctaw-news-preview', 1392, 784 );
+add_image_size( 'choctaw-news-single', 2592, 1458 );
+```
+
 ## v1.1.0
 
 -   Added Snippet for "Recent News" that displays posts flagged as "featured post", then rest of recent posts (similar to [choctawnation.com](choctawnation.com), [choctawnation.com/news](choctawnation.com/news), and [choctawnation.com/biskinik](choctawnation.com/biskinik) as of Nov 3, 2023).

@@ -30,7 +30,9 @@ wp_enqueue_script( 'cno-news' );
 				<div class="col">
 					<?php
 					if ( $news->has_photo ) {
-						$news->the_photo();
+						echo "<div class='ratio ratio-16x9'>";
+						$news->the_photo( 'choctaw-news-single', array( 'class' => 'object-fit-cover' ) );
+						echo '</div>';
 						echo "<div class='photo-meta mt-3'>";
 						$news->the_photo_credit();
 						$news->the_photo_caption();

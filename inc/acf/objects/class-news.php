@@ -200,19 +200,25 @@ class News {
 	/**
 	 * Wrapper for `get_the_post_thumbnail`
 	 *
-	 * @param string $size [Optional] The thumbnail size
+	 * @param string       $size [Optional] The thumbnail size
+	 * @param array|string $attr [Optional] Query string or array of attrbitues. Default empty.
 	 */
-	public function get_the_photo( string $size = 'full' ): string {
-		return get_the_post_thumbnail( $this->post_id, $size );
+	public function get_the_photo( string $size = 'full', array|string $attr = '' ): string {
+		$image = get_the_post_thumbnail( $this->post_id, $size );
+		if ( ! empty( $attr ) ) {
+			$image = get_the_post_thumbnail( $this->post_id, $size, $attr );
+		}
+		return $image;
 	}
 
 	/**
 	 * Echoes `get_the_photo($size)`, a wrapper for `get_the_post_thumbnail`
 	 *
-	 * @param string $size [Optional] The thumbnail size
+	 * @param string       $size [Optional] The thumbnail size
+	 * @param array|string $attr [Optional] Query string or array of attrbitues. Default empty.
 	 */
-	public function the_photo( string $size = 'full' ) {
-		echo $this->get_the_photo( $size );
+	public function the_photo( string $size = 'full', array|string $attr = '' ) {
+		echo $this->get_the_photo( $size, $attr );
 	}
 
 	/**
