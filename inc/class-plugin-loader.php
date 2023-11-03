@@ -27,7 +27,7 @@ final class Plugin_Loader extends Admin_Handler {
 
 	/** Loads the ACF APIs */
 	private function load_acf_classes() {
-		if ( ! class_exists( 'ACF_Image' ) ) {
+		if ( ! class_exists( 'ChoctawNation\ACF_Image' ) ) {
 			require_once __DIR__ . '/acf/objects/class-acf-image.php';
 		}
 		require_once __DIR__ . '/acf/objects/class-boilerplate.php';
