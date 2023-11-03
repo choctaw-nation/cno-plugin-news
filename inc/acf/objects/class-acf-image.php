@@ -3,8 +3,10 @@
  * Simple Image Object
  *
  * @package ChoctawNation
- * @since 0.2
+ * @since 1.0
  */
+
+namespace ChoctawNation;
 
 /** Generates a simple API for interacting with the ACF Image array and escapes its values */
 class ACF_Image {

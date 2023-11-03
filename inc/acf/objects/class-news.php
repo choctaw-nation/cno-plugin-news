@@ -69,6 +69,10 @@ class News {
 	 */
 	private ?array $boilerplates;
 
+	/** Whether the post has associated boilerplates
+	 *
+	 * @var bool $has_boilerplates
+	 */
 	public bool $has_boilerplates;
 
 	/**

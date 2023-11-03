@@ -3,7 +3,7 @@
  * Plugin Name: Choctaw News Plugin
  * Description: Choctaw News Plugin creates the News Post Type, Boilerplate Post Type and links up the ACF Fields.
  * Plugin URI: https://github.com/choctaw-nation/news-plugin
- * Version: 1.0.1
+ * Version: 1.1.0
  * Author: Choctaw Nation of Oklahoma
  * Author URI: https://www.choctawnation.com
  * Text Domain: cno
