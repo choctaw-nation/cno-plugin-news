@@ -42,7 +42,7 @@ final class Plugin_Loader extends Admin_Handler {
 	 */
 	public function update_template_loader( string $template ): string {
 		$is_single  = is_singular( 'choctaw-news' );
-		$is_archive = is_archive( 'choctaw-news' );
+		$is_archive = is_post_type_archive( 'choctaw-news' );
 		if ( $is_single ) {
 			$template = $this->get_the_template( 'single' );
 		}
