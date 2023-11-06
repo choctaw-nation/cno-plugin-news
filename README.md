@@ -8,6 +8,10 @@ This plugin uses 2 CPTs, News and Boilerplates, to handle news posts, alongside 
 
 # Changelog
 
+## v1.1.2
+
+-   Fixes template loading issue
+
 ## v1.1.1
 
 Fixes [#5](https://github.com/choctaw-nation/news-plugin/issues/5)
