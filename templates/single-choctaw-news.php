@@ -9,9 +9,9 @@
 
 use ChoctawNation\News\News;
 
+wp_enqueue_script( 'cno-news' );
 get_header();
 $news = new News( get_the_ID() );
-wp_enqueue_script( 'cno-news' );
 ?>
 <div class="container my-5 py-5">
 	<article <?php post_class( 'article' ); ?> id="<?php echo 'post-' . get_the_ID(); ?>">
