@@ -120,9 +120,9 @@ class News {
 	/**
 	 * The Vimeo id of the video
 	 *
-	 * @var int $video_id
+	 * @var ?int $video_id
 	 */
-	private int $video_id;
+	private ?int $video_id;
 
 	/**
 	 * The article excerpt (also the Yoast "Brief Description" or "Archive Content")
@@ -148,7 +148,7 @@ class News {
 		$this->boilerplates     = $this->has_boilerplates ? $boilerplates : null;
 
 		$this->has_video = ! empty( get_field( 'video', $id ) );
-		$this->video_id  = get_field( 'video', $id );
+		$this->video_id  = $this->has_video ? get_field( 'video', $id ) : null;
 
 		$this->set_photo_props( get_field( 'photo_meta', $id ) );
 		$this->set_full_article_props( get_field( 'full_article', $id ) );
