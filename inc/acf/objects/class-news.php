@@ -127,9 +127,9 @@ class News {
 	/**
 	 * The article excerpt (also the Yoast "Brief Description" or "Archive Content")
 	 *
-	 * @var string $excerpt
+	 * @var ?string $excerpt
 	 */
-	private string $excerpt;
+	private ?string $excerpt;
 
 	/**
 	 * Inits the class properties with the passed $id param (e.g. `get_field( 'field_name', $id )`)
@@ -137,12 +137,11 @@ class News {
 	 * @param int $id the Post ID
 	 */
 	public function __construct( int $id ) {
-		$this->post_id     = $id;
-		$this->is_featured = get_field( 'featured_post', $id );
-		$this->subheadline = ! empty( get_field( 'subheading', $id ) ) ? esc_textarea( get_field( 'subheading', $id ) ) : null;
-		$this->article     = acf_esc_html( get_field( 'article', $id ) );
-		$this->excerpt     = esc_textarea( get_field( 'archive_content', $id ) );
-
+		$this->post_id          = $id;
+		$this->is_featured      = get_field( 'featured_post', $id );
+		$this->subheadline      = ! empty( get_field( 'subheading', $id ) ) ? esc_textarea( get_field( 'subheading', $id ) ) : null;
+		$this->article          = acf_esc_html( get_field( 'article', $id ) );
+		$this->excerpt          = get_field( 'archive_content', $id ) ? esc_textarea( get_field( 'archive_content', $id ) ) : null;
 		$boilerplates           = get_field( 'additional_boilerplates', $id );
 		$this->has_boilerplates = is_array( $boilerplates ) && count( $boilerplates ) > 0;
 		$this->boilerplates     = $this->has_boilerplates ? $boilerplates : null;
@@ -154,7 +153,8 @@ class News {
 		$this->set_full_article_props( get_field( 'full_article', $id ) );
 	}
 
-	/** Sets photo props
+	/**
+	 * Sets photo props
 	 *
 	 * @param array $acf the Photo Meta subgroup
 	 */
@@ -187,13 +187,21 @@ class News {
 		}
 	}
 
-	//phpcs:ignore
+	/**
+	 * Gets the subheadline
+	 *
+	 * @return ?string the subheadline or null
+	 */
 	public function get_the_subheadline(): ?string {
 		return $this->subheadline;
 	}
 
-	//phpcs:ignore
-	public function the_subheadline() {
+	/**
+	 * Echoes the subheadline
+	 *
+	 * @return void
+	 */
+	public function the_subheadline(): void {
 		echo $this->get_the_subheadline();
 	}
 
@@ -202,6 +210,7 @@ class News {
 	 *
 	 * @param string       $size [Optional] The thumbnail size
 	 * @param array|string $attr [Optional] Query string or array of attrbitues. Default empty.
+	 * @return string the image
 	 */
 	public function get_the_photo( string $size = 'full', array|string $attr = '' ): string {
 		$image = get_the_post_thumbnail( $this->post_id, $size );
@@ -216,20 +225,23 @@ class News {
 	 *
 	 * @param string       $size [Optional] The thumbnail size
 	 * @param array|string $attr [Optional] Query string or array of attrbitues. Default empty.
+	 * @return void
 	 */
-	public function the_photo( string $size = 'full', array|string $attr = '' ) {
+	public function the_photo( string $size = 'full', array|string $attr = '' ): void {
 		echo $this->get_the_photo( $size, $attr );
 	}
 
 	/**
 	 * Gets the photo credit inside a `span.photo-meta__credit` or returns an empty string.
 	 *
+	 * @param string|string[] $classes [Optional] Additional classes to add to the span
 	 * @return string the markup
 	 */
-	public function get_the_photo_credit(): string {
-		$markup = '';
+	public function get_the_photo_credit( $classes = '' ): string {
+		$classes = $this->get_the_classes( 'photo-meta__credit', $classes );
+		$markup  = '';
 		if ( null !== $this->photo_credit ) {
-			$markup = "<p class='photo-meta__credit'>{$this->photo_credit}</p>";
+			$markup = '<span class="' . implode( ' ', $classes ) . '">' . $this->photo_credit . '</span>';
 		}
 		return $markup;
 	}
@@ -237,37 +249,68 @@ class News {
 	/**
 	 * Gets the photo caption inside a `span.photo-meta__caption` or returns an empty string.
 	 *
+	 * @param string|string[] $classes [Optional] Additional classes to add to the span
 	 * @return string the markup
 	 */
-	public function get_the_photo_caption(): ?string {
-		$markup = '';
+	public function get_the_photo_caption( $classes = '' ): string {
+		$classes = $this->get_the_classes( 'photo-meta__caption', $classes );
+		$markup  = '';
 		if ( null !== $this->photo_caption ) {
-			$markup = "<p class='photo-meta__caption'>{$this->photo_caption}</p>";
+			$markup = '<span class="' . implode( ' ', $classes ) . '">' . $this->photo_caption . '</span>';
 		}
 		return $markup;
 	}
 
 	/**
-	 * Echoes the photo credit inside a `span.photo-meta__credit` or returns an empty string.
+	 * Merges the default class with the passed classes
+	 *
+	 * @param string|string[] $default_class the default class(es)
+	 * @param string|string[] $classes [Optional] Additional classes to add
+	 * @return string[] the classes
 	 */
-	public function the_photo_credit() {
-		echo $this->get_the_photo_credit();
+	private function get_the_classes( $default_class, $classes ): array {
+		if ( empty( $classes ) ) {
+			return array( $default_class );
+		} else {
+			return array_merge( (array) $default_class, (array) $classes );
+		}
+	}
+
+	/**
+	 * Echoes the photo credit inside a `span.photo-meta__credit` or returns an empty string.
+	 *
+	 * @param string|string[] $classes [Optional] Additional classes to add to the span
+	 * @return void
+	 */
+	public function the_photo_credit( $classes = '' ): void {
+		echo $this->get_the_photo_credit( $classes );
 	}
 
 	/**
 	 * Echoes the photo caption inside a `span.photo-meta__caption` or returns an empty string.
+	 *
+	 * @param string|string[] $classes [Optional] Additional classes to add to the span
+	 * @return void
 	 */
-	public function the_photo_caption() {
-		echo $this->get_the_photo_caption();
+	public function the_photo_caption( string $classes = '' ): void {
+		echo $this->get_the_photo_caption( $classes );
 	}
 
-	//phpcs:ignore
+	/**
+	 * Gets the article text
+	 *
+	 * @return string the article
+	 */
 	public function get_the_article(): string {
 		return $this->article;
 	}
 
-	//phpcs:ignore
-	public function the_article() {
+	/**
+	 * Echoes the article text
+	 *
+	 * @return void
+	 */
+	public function the_article(): void {
 		echo $this->get_the_article();
 	}
 
@@ -300,7 +343,8 @@ class News {
 	/**
 	 * Gets the Published Date in a specified format (default 'F j, Y')
 	 *
-	 * @param string $format the date format
+	 * @param string $format [Optional] the date format
+	 * @return string the date
 	 */
 	public function get_the_published_date( string $format = 'F j, Y' ): string {
 		$markup = 'Published ' . get_the_date( $format, $this->post_id );
@@ -310,9 +354,10 @@ class News {
 	/**
 	 * Echoes the Published Date in a specified format (default 'F j, Y')
 	 *
-	 * @param string $format the date format
+	 * @param string $format [Optional] the date format
+	 * @return void
 	 */
-	public function the_published_date( string $format = 'F j, Y' ) {
+	public function the_published_date( string $format = 'F j, Y' ): void {
 		echo $this->get_the_published_date( $format );
 	}
 
@@ -327,8 +372,10 @@ class News {
 
 	/**
 	 * Echoes external article's title
+	 *
+	 * @return void
 	 */
-	public function the_external_article_title() {
+	public function the_external_article_title(): void {
 		echo $this->get_the_external_article_title();
 	}
 
@@ -343,8 +390,10 @@ class News {
 
 	/**
 	 * Echoes the link to the original article
+	 *
+	 * @return void
 	 */
-	public function the_external_article_link() {
+	public function the_external_article_link(): void {
 		echo $this->get_the_external_article_link();
 	}
 
@@ -359,15 +408,18 @@ class News {
 
 	/**
 	 * Echoes the author of the original article
+	 *
+	 * @return void
 	 */
-	public function the_external_article_author() {
+	public function the_external_article_author(): void {
 		echo $this->get_the_external_article_author();
 	}
 
 	/**
 	 * Gets the original article's published date in a specified format (default 'F j, Y')
 	 *
-	 * @param string $format the date format
+	 * @param string $format [Optional] the date format
+	 * @return string the date
 	 */
 	public function get_the_external_article_publish_date( string $format = 'F j, Y' ): string {
 		return $this->external_article_published_date->format( $format );
@@ -376,25 +428,33 @@ class News {
 	/**
 	 * Echoes the original article's published date in a specified format (default 'F j, Y')
 	 *
-	 * @param string $format the date format
+	 * @param string $format [Optional] the date format
+	 * @return void
 	 */
-	public function the_external_article_publish_date( string $format = 'F j, Y' ) {
+	public function the_external_article_publish_date( string $format = 'F j, Y' ): void {
 		echo $this->get_the_external_article_publish_date( $format );
 	}
 
 	/**
-	 * Returns the video inside a `.article__video.embed-container` and `lite-vimeo` player
+	 * Returns the video inside a `.article__video.ratio.ratio-16x9` and `lite-vimeo` player
+	 *
+	 * @param string|string[] $classes [Optional] Additional classes to add to the div
+	 * @return string the markup
 	 */
-	public function get_the_video(): string {
-		$markup = "<div class='article__video embed-container p-0'><lite-vimeo videoid='{$this->video_id}'></lite-vimeo></div>";
+	public function get_the_video( $classes = '' ): string {
+		$classes = array_merge( array( 'article__video', 'ratio', 'ratio-16x9' ), (array) $classes );
+		$markup  = '<div class="' . implode( ' ', $classes ) . '"><lite-vimeo videoid="' . $this->video_id . '"></lite-vimeo></div>';
 		return $markup;
 	}
 
 	/**
-	 * Echoes the video inside a `.article__video.embed-container` and `lite-vimeo` player
+	 * Echoes the video inside a `.article__video.ratio.ratio-16x9` and `lite-vimeo` player
+	 *
+	 * @param string|string[] $classes [Optional] Additional classes to add to the div
+	 * @return void
 	 */
-	public function the_video() {
-		echo $this->get_the_video();
+	public function the_video( $classes = '' ): void {
+		echo $this->get_the_video( $classes );
 	}
 
 	/**
