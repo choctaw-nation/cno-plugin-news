@@ -34,7 +34,7 @@ jobs:
             - name: Lint PHP
               id: phpcbf
               continue-on-error: true
-              run: vendor/bin/phpcbf inc/**/*.php templates/ template-parts/ index.php
+              run: vendor/bin/phpcbf inc/ templates/ template-parts/ index.php
 
             - name: Run PHPCS checks
               id: phpcs

@@ -9,8 +9,8 @@
 		}
 	},
 	"scripts": {
-		"phpcs": "phpcs inc/**/**/*.php templates/ template-parts/ index.php",
-		"phpcbf": "phpcbf inc/**/**/*.php templates/ template-parts/ index.php"
+		"phpcs": "phpcs inc/ templates/ template-parts/ index.php",
+		"phpcbf": "phpcbf inc/ templates/ template-parts/ index.php"
 	},
 	"require-dev": {
 		"wp-coding-standards/wpcs": "*"
