@@ -74,10 +74,10 @@ $featured_posts_args['meta_query'] = array(
 			while ( $featured_posts_query->have_posts() ) {
 				$featured_posts_query->the_post();
 				echo '<li class="col-12 mb-4">';
-				$template_override = get_template_part( 'template-parts/content', 'featured-news' );
-				if ( false === $template_override ) {
-					require dirname( __DIR__ ) . '/template-parts/content-featured-news.php';
-				}
+				$template_override = get_template_part( 'template-parts/content', 'news-preview' );
+					if ( false === $template_override ) {
+						require dirname( __DIR__ ) . '/template-parts/content-news-preview.php';
+					}
 				echo '</li>';
 			}
 		}
