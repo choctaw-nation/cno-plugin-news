@@ -79,6 +79,7 @@ final class Plugin_Loader extends Admin_Handler {
 		);
 	}
 
+	/** Registers the standard image sizes */
 	public function register_image_sizes() {
 		add_image_size( 'choctaw-news-preview', 1392, 784 );
 		add_image_size( 'choctaw-news-single', 2592, 1458 );

@@ -1,1 +1,1 @@
-import '@slightlyoff/lite-vimeo';
+import '@choctawnationofoklahoma/lite-vimeo';

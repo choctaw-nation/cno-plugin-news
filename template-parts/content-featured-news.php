@@ -74,7 +74,10 @@ $featured_posts_args['meta_query'] = array(
 			while ( $featured_posts_query->have_posts() ) {
 				$featured_posts_query->the_post();
 				echo '<li class="col-12 mb-4">';
-				// get_template_part( 'template-parts/content', 'news-preview' );
+				$template_override = get_template_part( 'template-parts/content', 'news-preview' );
+					if ( false === $template_override ) {
+						require dirname( __DIR__ ) . '/template-parts/content-news-preview.php';
+					}
 				echo '</li>';
 			}
 		}
@@ -103,7 +106,10 @@ $featured_posts_args['meta_query'] = array(
 				while ( $query->have_posts() ) {
 					$query->the_post();
 					echo '<li class="col-12 mb-4">';
-					// get_template_part( 'template-parts/content', 'news-preview' );
+					$template_override = get_template_part( 'template-parts/content', 'news-preview' );
+					if ( false === $template_override ) {
+						require dirname( __DIR__ ) . '/template-parts/content-news-preview.php';
+					}
 					echo '</li>';
 				}
 			}
@@ -113,7 +119,7 @@ $featured_posts_args['meta_query'] = array(
 	</ul>
 
 	<div class="row py-4 position-relative">
-		<a href="/news" class="btn btn-primary">More News <i class="fa fa-angle-right" aria-hidden="true"></i>
+		<a href="<?php echo get_post_type_archive_link( 'choctaw-news' ); ?>" class="btn btn-primary">More News <i class="fa fa-angle-right" aria-hidden="true"></i>
 		</a>
 	</div>
 </section>

@@ -1,12 +1,11 @@
 {
 	"name": "choctaw-news-plugin",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Choctaw news Plugin",
 	"prettier": "@wordpress/prettier-config",
 	"browserslist": [
 		"extends @wordpress/browserslist-config"
 	],
-	"main": "/src/index.js",
 	"author": "Choctaw Nation of Oklahoma",
 	"scripts": {
 		"build": "wp-scripts build",
@@ -15,9 +14,9 @@
 		"start": "wp-scripts start"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^27.2.0"
+		"@wordpress/scripts": "^27.6.0"
 	},
 	"dependencies": {
-		"@slightlyoff/lite-vimeo": "^0.1.2"
+		"@choctawnationofoklahoma/lite-vimeo": "^1.0.2"
 	}
 }

@@ -13,7 +13,7 @@ $news = new News( $post->ID );
 ?>
 <li class="row my-4">
 	<div class="col-lg-5">
-		<div class="ratio ratio-16x9">
+		<a href="<?php the_permalink(); ?>" class="ratio ratio-16x9">
 			<?php
 			$news->the_photo(
 				'choctaw-news-preview',
@@ -22,7 +22,7 @@ $news = new News( $post->ID );
 				)
 			);
 			?>
-		</div>
+		</a>
 	</div>
 	<div class="col d-flex flex-column">
 		<a href="<?php the_permalink(); ?>">
