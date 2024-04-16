@@ -134,23 +134,45 @@ class News {
 	/**
 	 * Inits the class properties with the passed $id param (e.g. `get_field( 'field_name', $id )`)
 	 *
-	 * @param int $id the Post ID
+	 * @param int       $news_post_id the Post ID
+	 * @param int|int[] $boilerplate_ids [Optional] default Boilerplate IDs to attach to every news post
 	 */
-	public function __construct( int $id ) {
-		$this->post_id          = $id;
-		$this->is_featured      = get_field( 'featured_post', $id );
-		$this->subheadline      = ! empty( get_field( 'subheading', $id ) ) ? esc_textarea( get_field( 'subheading', $id ) ) : null;
-		$this->article          = acf_esc_html( get_field( 'article', $id ) );
-		$this->excerpt          = get_field( 'archive_content', $id ) ? esc_textarea( get_field( 'archive_content', $id ) ) : null;
-		$boilerplates           = get_field( 'additional_boilerplates', $id );
-		$this->has_boilerplates = is_array( $boilerplates ) && count( $boilerplates ) > 0;
-		$this->boilerplates     = $this->has_boilerplates ? $boilerplates : null;
+	public function __construct( int $news_post_id, $boilerplate_ids = null ) {
+		$this->post_id     = $news_post_id;
+		$this->is_featured = get_field( 'featured_post', $news_post_id );
+		$this->subheadline = ! empty( get_field( 'subheading', $news_post_id ) ) ? esc_textarea( get_field( 'subheading', $news_post_id ) ) : null;
+		$this->article     = acf_esc_html( get_field( 'article', $news_post_id ) );
+		$this->excerpt     = get_field( 'archive_content', $news_post_id ) ? esc_textarea( get_field( 'archive_content', $news_post_id ) ) : null;
+		$this->set_the_boilerplate_props( $news_post_id, $boilerplate_ids );
 
-		$this->has_video = ! empty( get_field( 'video', $id ) );
-		$this->video_id  = $this->has_video ? get_field( 'video', $id ) : null;
+		$this->has_video = ! empty( get_field( 'video', $news_post_id ) );
+		$this->video_id  = $this->has_video ? get_field( 'video', $news_post_id ) : null;
 
-		$this->set_photo_props( get_field( 'photo_meta', $id ) );
-		$this->set_full_article_props( get_field( 'full_article', $id ) );
+		$this->set_photo_props( get_field( 'photo_meta', $news_post_id ) );
+		$this->set_full_article_props( get_field( 'full_article', $news_post_id ) );
+	}
+
+	/**
+	 * Inits the boilerplates and sets the `has_boilerplates` property
+	 *
+	 * @param int            $news_post_id the Post ID
+	 * @param int|int[]|null $default_boilerplate_ids [Optional] default Boilerplate IDs to attach to every news post
+	 * @return void
+	 */
+	private function set_the_boilerplate_props( int $news_post_id, $default_boilerplate_ids ) {
+		$selected_boilerplates = get_field( 'additional_boilerplates', $news_post_id );
+		if ( empty( $selected_boilerplates ) && empty( $default_boilerplate_ids ) ) {
+			$this->boilerplates     = null;
+			$this->has_boilerplates = false;
+		} else {
+			$this->has_boilerplates = true;
+			$default_boilerplates   = array();
+			foreach ( (array) $default_boilerplate_ids as $boilerplate_id ) {
+				$default_boilerplates[] = get_post( $boilerplate_id );
+			}
+			$boilerplates       = array_unique( array_merge( $selected_boilerplates, $default_boilerplates ), SORT_REGULAR );
+			$this->boilerplates = $boilerplates;
+		}
 	}
 
 	/**
