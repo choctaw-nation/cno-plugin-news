@@ -1,8 +1,6 @@
 name: PHPCS check
 on:
     pull_request:
-    # Allow manually triggering the workflow.
-    workflow_dispatch:
 
 # Cancel all previous workflow runs for the same branch that have not yet completed.
 concurrency:
@@ -34,11 +32,11 @@ jobs:
             - name: Lint PHP
               id: phpcbf
               continue-on-error: true
-              run: vendor/bin/phpcbf inc/ templates/ template-parts/ index.php
+              run: vendor/bin/phpcbf inc/ templates/ template-parts/ cno-plugin-news.php
 
             - name: Run PHPCS checks
               id: phpcs
-              run: vendor/bin/phpcs --report-full --report-checkstyle=./phpcs-report.xml template-parts/ templates/ inc/ index.php
+              run: vendor/bin/phpcs --report-full --report-checkstyle=./phpcs-report.xml template-parts/ templates/ inc/ cno-plugin-news.php
 
             - name: Show PHPCS results in PR
               if: ${{ always() && steps.phpcs.outcome == 'failure' }}

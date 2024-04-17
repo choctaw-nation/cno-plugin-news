@@ -13,6 +13,16 @@
 		"plugin-zip": "wp-scripts plugin-zip",
 		"start": "wp-scripts start"
 	},
+	"files": [
+		"src",
+		"dist",
+		"languages",
+		"readme.md",
+		"inc",
+		"templates",
+		"template-parts",
+		"choctaw-news-plugin.php"
+	],
 	"devDependencies": {
 		"@wordpress/scripts": "^27.6.0"
 	},

@@ -8,6 +8,16 @@ This plugin uses 2 CPTs, News and Boilerplates, to handle news posts, alongside 
 
 # Changelog
 
+## v1.1.5
+
+-   Deployment ready!
+
+## v1.1.4
+
+-   Updated the News API
+    -   Now handles adding default boilerplates
+    -   Now handles injecting additional classes!
+
 ## v1.1.2
 
 -   Fixes template loading issue

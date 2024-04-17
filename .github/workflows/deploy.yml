@@ -1,0 +1,113 @@
+name: PHPCS check
+on:
+    push:
+        branches:
+            - main
+    # Allow manually triggering the workflow.
+    workflow_dispatch:
+
+jobs:
+    phpcs:
+        name: PHPCS check
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@main
+
+            - name: Setup PHP
+              uses: 'shivammathur/setup-php@v2'
+              with:
+                  php-version: 'latest'
+                  ini-values: memory_limit=256M'
+                  coverage: none
+                  tools: cs2pr
+
+            - name: Install Composer dependencies
+              uses: 'ramsey/composer-install@v3'
+              with:
+                  # Bust the cache at least once a month - output format: YYYY-MM.
+                  custom-cache-suffix: $(date -u "+%Y-%m")
+
+            - name: Lint PHP
+              id: phpcbf
+              continue-on-error: true
+              run: vendor/bin/phpcbf inc/ templates/ template-parts/ index.php
+
+            - name: Run PHPCS checks
+              id: phpcs
+              run: vendor/bin/phpcs --report-full --report-checkstyle=./phpcs-report.xml template-parts/ templates/ inc/ index.php
+
+            - name: Show PHPCS results in PR
+              if: ${{ always() && steps.phpcs.outcome == 'failure' }}
+              run: cs2pr ./phpcs-report.xml
+
+    bundle:
+        needs: phpcs
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@main
+
+            - name: Setup Node.js
+              uses: actions/setup-node@main
+
+            - name: Install Deps and build
+              run: |
+                  npm ci
+                  npm run build
+
+            - name: Upload Assets
+              uses: actions/upload-artifact@main
+              with:
+                  name: bundle
+                  path: './dist'
+
+            - name: Zip Plugin
+              run: npm run plugin-zip
+
+            - name: Upload Plugin
+              uses: actions/upload-artifact@main
+              with:
+                  name: plugin
+                  path: 'cno-plugin-news.zip'
+
+    deploy:
+        needs: [phpcs, bundle]
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@main
+
+            - name: Download Plugin
+              uses: actions/download-artifact@main
+              with:
+                  name: plugin
+                  path: .
+
+            - name: Get version
+              id: version
+              run: |
+                  echo "::set-output name=version::$(grep -Po 'Version: \K.*' cno-plugin-news.php)"
+              shell: bash
+
+            - name: Create Release
+              id: create_release
+              uses: actions/create-release@main
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+              with:
+                  tag_name: ${{ steps.version.outputs.version }}
+                  release_name: Release ${{ steps.version.outputs.version }}
+                  draft: false
+                  prerelease: false
+
+            - name: Upload Release Asset
+              uses: actions/upload-release-asset@main
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+                  asset_path: ./cno-plugin-news.zip
+                  asset_name: cno-plugin-news.zip
+                  asset_content_type: application/zip
