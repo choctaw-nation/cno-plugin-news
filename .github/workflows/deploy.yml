@@ -53,7 +53,7 @@ jobs:
             - name: Get version
               id: version
               run: |
-                  echo "VERSION=$(grep -Po 'Version: \K.*' cno-plugin-news.php)" >> "$GITHUB_ENV"
+                  echo "VERSION=$(grep -Po 'Version: \K.*' choctaw-news-plugin.php)" >> "$GITHUB_ENV"
               shell: bash
 
             - name: Create Release
