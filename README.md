@@ -6,7 +6,19 @@ This plugin uses 2 CPTs, News and Boilerplates, to handle news posts, alongside 
 
 [Read more at this plugin's wiki](https://github.com/choctaw-nation/news-plugin/wiki)
 
+## Quick Start
+
+1. Grab the `choctaw-news-plugin.zip` file from [the latest release](https://github.com/choctaw-nation/cno-plugin-news/releases)
+2. Install to your WordPress app
+
 # Changelog
+
+## v1.1.6
+
+(_Actually_ deployment ready!)
+
+-   Added Quick Start
+-   Added the top-level php file so the plugin actually works.
 
 ## v1.1.5
 
