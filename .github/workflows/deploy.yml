@@ -34,7 +34,7 @@ jobs:
               uses: actions/upload-artifact@main
               with:
                   name: plugin
-                  path: 'cno-plugin-news.zip'
+                  path: 'choctaw-news-plugin.zip'
 
     deploy:
         needs: bundle
