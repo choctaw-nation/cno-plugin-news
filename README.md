@@ -14,6 +14,7 @@ This plugin uses 2 CPTs, News and Boilerplates, to handle news posts, alongside 
 # Changelog
 
 ## v1.1.9
+
 -   Fix WordPress Hook errors
 
 ## v1.1.8
