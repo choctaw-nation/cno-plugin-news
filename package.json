@@ -1,6 +1,6 @@
 {
 	"name": "choctaw-news-plugin",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Choctaw news Plugin",
 	"prettier": "@wordpress/prettier-config",
 	"browserslist": [
@@ -14,13 +14,12 @@
 		"start": "wp-scripts start"
 	},
 	"files": [
-		"src",
 		"dist",
-		"languages",
 		"readme.md",
 		"inc",
 		"templates",
 		"template-parts",
+		"LICENSE",
 		"choctaw-news-plugin.php"
 	],
 	"devDependencies": {

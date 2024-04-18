@@ -1,10 +1,8 @@
-name: PHPCS check
+name: Deploy to Github Release
 on:
     push:
         branches:
             - main
-    # Allow manually triggering the workflow.
-    workflow_dispatch:
 
 jobs:
     bundle:

@@ -15,10 +15,11 @@ require_once __DIR__ . '/plugin-logic/class-admin-handler.php';
 /** Inits the Plugin */
 final class Plugin_Loader extends Admin_Handler {
 	/**
-	 * Die if no ACF, else build the plugin.
+	 * Initializes the Plugin
+	 * 
+	 * @return void
 	 */
-	public function __construct() {
-		parent::__construct();
+	public function activate(): void {
 		$this->load_acf_classes();
 		add_filter( 'template_include', array( $this, 'update_template_loader' ) );
 		add_action( 'pre_get_posts', array( $this, 'include_choctaw_news_post_type_in_search' ) );
@@ -26,13 +27,35 @@ final class Plugin_Loader extends Admin_Handler {
 		add_action( 'after_setup_theme', array( $this, 'register_image_sizes' ) );
 	}
 
+	/** 
+	 * Deactivates the Plugin
+	 * 
+	 * @return void
+	 */
+	public function deactivate(): void {
+		$image_sizes = array('choctaw-news-preview', 'choctaw-news-single');
+		foreach ( $image_sizes as $size ) {
+			remove_image_size( $size );
+		}
+
+		$post_types = array('choctaw-news', 'choctaw-boilerplates');
+		foreach ( $post_types as $type ) {
+			unregister_post_type( $type );
+		}
+		
+		$scripts = array('cno-news');
+		foreach ( $scripts as $script ) {
+			wp_deregister_script( $script );
+		}
+	}
+
 	/** Loads the ACF APIs */
 	private function load_acf_classes() {
 		if ( ! class_exists( 'ChoctawNation\ACF_Image' ) ) {
-			require_once __DIR__ . '/acf/objects/class-acf-image.php';
+			require_once __DIR__ . '/acf/classes/class-acf-image.php';
 		}
-		require_once __DIR__ . '/acf/objects/class-boilerplate.php';
-		require_once __DIR__ . '/acf/objects/class-news.php';
+		require_once __DIR__ . '/acf/classes/class-boilerplate.php';
+		require_once __DIR__ . '/acf/classes/class-news.php';
 	}
 
 	/**
