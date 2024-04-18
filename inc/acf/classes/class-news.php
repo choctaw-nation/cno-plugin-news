@@ -160,7 +160,8 @@ class News {
 	 * @return void
 	 */
 	private function set_the_boilerplate_props( int $news_post_id, $default_boilerplate_ids ) {
-		$selected_boilerplates = get_field( 'additional_boilerplates', $news_post_id );
+		$selected_boilerplates = (array) get_field( 'additional_boilerplates', $news_post_id );
+
 		if ( empty( $selected_boilerplates ) && empty( $default_boilerplate_ids ) ) {
 			$this->boilerplates     = null;
 			$this->has_boilerplates = false;

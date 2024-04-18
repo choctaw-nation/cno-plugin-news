@@ -89,11 +89,11 @@ class Admin_Handler {
 	 * 
 	 * @return void
 	 */
-	public function register_scripts():void {
+	public function register_scripts(): void {
 		$asset_file = require_once dirname( __DIR__, 2 ) . '/dist/cno-news.asset.php';
 		wp_register_script(
 			'cno-news',
-			plugin_dir_url( __DIR__ ) . 'dist/cno-news.js',
+			plugin_dir_url( dirname( __DIR__, 1 ) ) . 'dist/cno-news.js',
 			array(),
 			$asset_file['version'],
 			array( 'strategy' => 'async' )
