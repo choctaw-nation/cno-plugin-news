@@ -74,8 +74,10 @@ class ACF_Image {
 	 * Echoes the Image element
 	 *
 	 * @param string $img_class the html class to give the image
+	 * 
+	 * @return void
 	 */
-	public function the_image( string $img_class = '' ) {
+	public function the_image( string $img_class = '' ):void {
 		echo $this->get_the_image( $img_class );
 	}
 }

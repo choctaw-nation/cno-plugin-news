@@ -13,6 +13,15 @@ This plugin uses 2 CPTs, News and Boilerplates, to handle news posts, alongside 
 
 # Changelog
 
+## v1.1.7
+
+-   Cleaned up Deployment's included files
+-   Added license to bundle
+-   Updated GH action name
+-   Added ACF to required plugin list
+-   Init/De-init plugin with WP hooks
+-   Moved ACF classes from `/objects` to `/classes`
+
 ## v1.1.6
 
 (_Actually_ deployment ready!)

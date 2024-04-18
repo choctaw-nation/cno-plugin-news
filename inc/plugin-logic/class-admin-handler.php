@@ -16,7 +16,7 @@ class Admin_Handler extends Post_Type_Builder {
 	/**
 	 * Callback Function: Adds Custom Post Type to WP Query
 	 *
-	 * @param \WP_Query $query the curent query
+	 * @param \WP_Query $query the current query
 	 */
 	public function include_choctaw_news_post_type_in_search( \WP_Query $query ) {
 		if ( $query->is_search && ! is_admin() ) {

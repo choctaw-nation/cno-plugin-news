@@ -64,8 +64,12 @@ class Boilerplate {
 		return $markup;
 	}
 
-	/** Echoes `get_the_boilerplate()` */
-	public function the_boilerplate() {
+	/**
+	 * Echoes `get_the_boilerplate()`
+	 * 
+	 * @return void
+	 */
+	public function the_boilerplate():void {
 		echo $this->get_the_boilerplate();
 	}
 }
