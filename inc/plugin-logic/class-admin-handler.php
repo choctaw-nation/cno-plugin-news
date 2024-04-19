@@ -12,20 +12,20 @@ namespace ChoctawNation\News;
 class Admin_Handler {
 	/**
 	 * Inits the CPT
-	 * 
+	 *
 	 * @return void
 	 */
-	public function init_cpt():void {
+	public function init_cpt(): void {
 		require_once dirname( __DIR__, 1 ) . '/cpts/cno-news-cpt.php';
 		require_once dirname( __DIR__, 1 ) . '/cpts/cno-boilerplates-cpt.php';
 	}
 
 	/**
 	 * Inits the ACF Fields
-	 * 
+	 *
 	 * @return void
 	 */
-	protected function init_acf():void {
+	protected function init_acf(): void {
 		if ( ! class_exists( 'ACF' ) ) {
 			$plugin_error = new \WP_Error( 'Choctaw News Error', 'ACF not installed!' );
 			echo $plugin_error->get_error_messages( 'Choctaw News Error' );
@@ -38,14 +38,14 @@ class Admin_Handler {
 			require_once dirname( __DIR__, 1 ) . '/acf/classes/class-acf-image.php';
 		}
 	}
-	
+
 	/**
 	 * Callback Function: Adds Custom Post Type to WP Query
 	 *
 	 * @param \WP_Query $query the current query
 	 * @return void
 	 */
-	public function include_choctaw_news_post_type_in_search( \WP_Query $query ):void {
+	public function include_choctaw_news_post_type_in_search( \WP_Query $query ): void {
 		if ( $query->is_search && ! is_admin() ) {
 			$query->set( 'post_type', array( 'choctaw-news' ) );
 		}
@@ -66,6 +66,9 @@ class Admin_Handler {
 		if ( $is_archive ) {
 			$template = $this->get_the_template( 'archive' );
 		}
+		if ( is_wp_error( $template ) ) {
+			wp_die( $template );
+		}
 		return $template;
 	}
 
@@ -76,7 +79,7 @@ class Admin_Handler {
 	 */
 	private function get_the_template( string $type ): string|\WP_Error {
 		$template_override = get_stylesheet_directory() . "/templates/{$type}-choctaw-news.php";
-		$template          = file_exists( $template_override ) ? $template_override : dirname( __DIR__, 1 ) . "/templates/{$type}-choctaw-news.php";
+		$template          = file_exists( $template_override ) ? $template_override : dirname( __DIR__, 2 ) . "/templates/{$type}-choctaw-news.php";
 		if ( file_exists( $template ) ) {
 			return $template;
 		} else {
@@ -86,7 +89,7 @@ class Admin_Handler {
 
 	/**
 	 * Registers "lite-vimeo" script with id of 'cno-news'
-	 * 
+	 *
 	 * @return void
 	 */
 	public function register_scripts(): void {
