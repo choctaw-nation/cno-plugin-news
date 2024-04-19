@@ -17,6 +17,7 @@ This plugin uses 2 CPTs, News and Boilerplates, to handle news posts, alongside 
 
 -   Fixed a bug that wasn't allowing `lite-vimeo` script to be properly registered
 -   Fixed a bug where default boilerplates and no selected boilerplates was causing the news title to appear again as a boilerplate
+-   Updated the default `single-news` layout
 
 ## v1.1.9
 
