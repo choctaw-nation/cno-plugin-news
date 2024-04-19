@@ -13,6 +13,11 @@ This plugin uses 2 CPTs, News and Boilerplates, to handle news posts, alongside 
 
 # Changelog
 
+## v1.1.12
+
+-   Fixed a bug where default templates weren't being loaded
+-   Fixed a bug where if no templates could be found, the WP_Error wasn't being handled correctly
+
 ## v1.1.11
 
 -   Fixed a bug that wasn't allowing `lite-vimeo` script to be properly registered
